@@ -1,0 +1,2360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Calculator | KCC Curbs International</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --primary-bg: #eff6ff;
+            --secondary: #334155;
+            --secondary-light: #64748b;
+            --secondary-dark: #1e293b;
+            --accent: #0ea5e9;
+            --accent-light: #7dd3fc;
+            --accent-dark: #0369a1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --border-radius-sm: 4px;
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+            --border-radius-xl: 16px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.2s ease-in-out;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background-color: var(--gray-100);
+            background-image: 
+                linear-gradient(120deg, rgba(225, 234, 255, 0.3) 0%, rgba(225, 234, 255, 0) 70%),
+                linear-gradient(240deg, rgba(207, 250, 255, 0.4) 10%, rgba(207, 250, 255, 0) 80%);
+            background-attachment: fixed;
+            background-size: cover;
+            min-height: 100vh;
+            position: relative;
+            padding: 2rem 1rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        
+        .branding {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            height: 45px;
+            margin-right: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            width: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .app-title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--secondary-dark);
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .app-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .app-subtitle {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            position: relative;
+        }
+        
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition);
+            height: fit-content;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+            color: white;
+            padding: 1.25rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        
+        .card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .toggle-config {
+            position: absolute;
+            top: 50%;
+            right: 1.5rem;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--border-radius);
+            font-size: 0.85rem;
+            cursor: pointer;
+            z-index: 2;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .toggle-config:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .toggle-config svg {
+            width: 14px;
+            height: 14px;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-config.active svg {
+            transform: rotate(180deg);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            font-size: 0.95rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .form-control:disabled {
+            background-color: var(--gray-200);
+            cursor: not-allowed;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary-dark));
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary:disabled {
+            background: var(--gray-400);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .config-section {
+            display: none;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--gray-300);
+        }
+        
+        .config-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            position: relative;
+        }
+        
+        .config-tabs::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--gray-200);
+            z-index: 0;
+        }
+        
+        .config-tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            white-space: nowrap;
+            color: var(--gray-600);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .config-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: transparent;
+            transition: var(--transition);
+        }
+        
+        .config-tab.active {
+            color: var(--primary);
+        }
+        
+        .config-tab.active::after {
+            background-color: var(--primary);
+        }
+        
+        .config-content {
+            display: none;
+        }
+        
+        .config-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .config-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            gap: 1rem;
+        }
+        
+        .btn-secondary {
+            background-color: var(--gray-200);
+            color: var(--gray-800);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--gray-300);
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, var(--success), #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(to right, #059669, #047857);
+            transform: translateY(-2px);
+        }
+        
+        .mileage-inputs, .city-inputs {
+            margin-top: 1rem;
+            background-color: var(--gray-50);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .mileage-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+            align-items: center;
+        }
+        
+        .mileage-label {
+            font-weight: 500;
+            margin-bottom: 0;
+            color: var(--gray-700);
+            font-size: 0.85rem;
+        }
+        
+        .freight-rates-row {
+            margin-bottom: 1.5rem;
+        }
+        
+        .freight-rates-header {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--gray-700);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .freight-rates-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            background-color: var(--gray-50);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border: 1px solid var(--gray-200);
+            position: relative;
+        }
+        
+        .add-state-btn {
+            background-color: var(--gray-100);
+            color: var(--gray-700);
+            border: 1px dashed var(--gray-400);
+            padding: 0.6rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .add-state-btn:hover {
+            background-color: var(--gray-200);
+            color: var(--gray-800);
+        }
+        
+        .add-state-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .line-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .line-item:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--gray-300);
+        }
+        
+        .line-item h3 {
+            margin-top: 0;
+            margin-bottom: 1.25rem;
+            color: var(--gray-800);
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .line-item h3::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 18px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .line-item-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 500px) {
+            .line-item-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .remove-line-item {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .remove-line-item:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .add-line-item {
+            background-color: var(--gray-100);
+            color: var(--gray-700);
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        
+        .add-line-item:hover {
+            background-color: var(--gray-200);
+            color: var(--gray-800);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 1.5rem;
+            font-style: italic;
+            color: var(--gray-600);
+            display: none;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(59, 130, 246, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 0.75rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .error {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            display: none;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--danger);
+        }
+        
+        .error-icon {
+            margin-right: 0.5rem;
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+        }
+        
+        .result-section {
+            margin-bottom: 2rem;
+        }
+        
+        .result-section h3 {
+            color: var(--gray-800);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .result-row:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        .result-value {
+            font-weight: 500;
+            color: var(--gray-900);
+        }
+        
+        .best-option {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .best-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--success);
+        }
+        
+        .best-option h3 {
+            border-bottom: none;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0;
+            color: var(--success);
+        }
+        
+        .best-option-content {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .shipping-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .shipping-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .shipping-options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .shipping-option {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .shipping-option:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .option-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.75rem;
+        }
+        
+        .option-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .best-price {
+            border: 2px solid var(--success);
+            position: relative;
+        }
+        
+        .best-price::before {
+            content: 'Best';
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background-color: var(--success);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        .badge-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        /* New shipping details card */
+        .shipping-details {
+            margin-top: 2rem;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(14, 165, 233, 0.05));
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        
+        .shipping-details h3 {
+            color: var(--accent-dark);
+            border-bottom: none;
+            margin-bottom: 1rem;
+            padding-bottom: 0;
+        }
+        
+        .shipping-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .shipping-breakdown {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .shipping-breakdown {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .shipping-breakdown-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        
+        .breakdown-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            margin-bottom: 0.5rem;
+        }
+        
+        .breakdown-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-dark);
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animation-fade-in-up {
+            animation: fadeInUp 0.4s ease-out;
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 0.25rem;
+            cursor: help;
+        }
+        
+        .tooltip .tooltip-icon {
+            color: var(--gray-400);
+            transition: var(--transition);
+        }
+        
+        .tooltip:hover .tooltip-icon {
+            color: var(--gray-600);
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--gray-800);
+            color: white;
+            text-align: center;
+            border-radius: var(--border-radius);
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            font-weight: normal;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .tooltip .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--gray-800) transparent transparent transparent;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-400);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-500);
+        }
+    </style>
+</head>
+<body>
+<div class="card-header">
+                    <h2 class="card-title">Shipping Information</h2>
+                    <button type="button" class="toggle-config" id="toggleConfig">
+                        <span id="configBtnText">Configure Rates</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+
+                   <div class="card-body">
+                    <!-- Configuration Section -->
+                    <div class="config-section" id="configSection">
+                        <div class="config-tabs">
+                            <div class="config-tab active" data-tab="rates">Shipping Rates</div>
+                            <div class="config-tab" data-tab="addons">Curb Add-ons</div>
+                            <div class="config-tab" data-tab="mileage">Distance Data</div>
+                            <div class="config-tab" data-tab="freight">Freight Rates</div>
+                            <div class="config-tab" data-tab="constraints">Shipping Constraints</div>
+                        </div>
+                        
+                        <!-- Shipping Rates Tab -->
+                        <div class="config-content active" id="rates-tab">
+                            <div class="config-grid">
+                                <div class="form-group">
+                                    <label for="ltlFuelSurchargeMultiplier" class="form-label">
+                                        LTL Fuel Surcharge Multiplier
+                                        <div class="tooltip">
+                                            <svg class="tooltip-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Multiplier applied to LTL rates to account for fuel surcharges</span>
+                                        </div>
+                                    </label>
+                                    <input type="number" id="ltlFuelSurchargeMultiplier" class="form-control" step="0.01" min="1" value="1.08">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="ltlFreightChargeMinimum" class="form-label">LTL Freight Charge Minimum ($)</label>
+                                    <input type="number" id="ltlFreightChargeMinimum" class="form-control" step="1" min="0" value="140">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="truckLoadFreightChargePerMile" class="form-label">Truck Load Per Mile Rate ($)</label>
+                                    <input type="number" id="truckLoadFreightChargePerMile" class="form-control" step="0.01" min="0" value="3.75">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="truckLoadFreightChargeMinimum" class="form-label">Truck Load Minimum Charge ($)</label>
+                                    <input type="number" id="truckLoadFreightChargeMinimum" class="form-control" step="1" min="0" value="825">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="wideLoadFreightChargePerMile" class="form-label">Wide Load Per Mile Rate ($)</label>
+                                    <input type="number" id="wideLoadFreightChargePerMile" class="form-control" step="0.01" min="0" value="6.00">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="wideLoadFreightChargeMinimum" class="form-label">Wide Load Minimum Charge ($)</label>
+                                    <input type="number" id="wideLoadFreightChargeMinimum" class="form-control" step="1" min="0" value="925">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="minimumLargeTruckFreight" class="form-label">Large Truck Minimum Freight ($)</label>
+                                    <input type="number" id="minimumLargeTruckFreight" class="form-control" step="1" min="0" value="90">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="volumeFreightMultiplier" class="form-label">
+                                        Volume Freight Multiplier
+                                        <div class="tooltip">
+                                            <svg class="tooltip-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Discount multiplier applied for partial truck loads</span>
+                                        </div>
+                                    </label>
+                                    <input type="number" id="volumeFreightMultiplier" class="form-control" step="0.01" min="0" max="1" value="0.75">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="noLtlStates" class="form-label">States Without LTL Service</label>
+                                    <input type="text" id="noLtlStates" class="form-control" value="AB, BC, MB, NB, NS, ON, SK">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Curb Type Add-ons Tab -->
+                        <div class="config-content" id="addons-tab">
+                            <div class="form-group">
+                                <label for="addOn1Types" class="form-label">Add-On Group 1 Curb Types</label>
+                                <input type="text" id="addOn1Types" class="form-control" value="MBC1, MBC3, MBC7, MBC7-3 Piece">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="addOn1Value" class="form-label">Add-On Group 1 Value</label>
+                                <input type="number" id="addOn1Value" class="form-control" step="1" min="0" value="14">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="addOn2Types" class="form-label">Add-On Group 2 Curb Types</label>
+                                <input type="text" id="addOn2Types" class="form-control" value="Butler IF, Duracurb, MBC9, MBC10, MBC11, MBC12, Inner Curb">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="addOn2Value" class="form-label">Add-On Group 2 Value</label>
+                                <input type="number" id="addOn2Value" class="form-control" step="1" min="0" value="4">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="addOn3Types" class="form-label">Add-On Group 3 Curb Types</label>
+                                <input type="text" id="addOn3Types" class="form-control" value="Base Panel, BR-II, MBC7 Extended, Seam In, Butler Base Panel">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="addOn3Value" class="form-label">Add-On Group 3 Value</label>
+                                <input type="number" id="addOn3Value" class="form-control" step="1" min="0" value="24">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="addOn4Types" class="form-label">Add-On Group 4 Curb Types</label>
+                                <input type="text" id="addOn4Types" class="form-control" value="CC-1, CC-2, CC-3, CC-4, CC-5, CC-6">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="addOn4Value" class="form-label">Add-On Group 4 Value</label>
+                                <input type="number" id="addOn4Value" class="form-control" step="1" min="0" value="6">
+                            </div>
+                        </div>
+                        
+                        <!-- Mileage Data Tab -->
+                        <div class="config-content" id="mileage-tab">
+                            <div class="form-group">
+                                <label class="form-label">Mileage Data</label>
+                                <div class="mileage-inputs" id="mileageInputs">
+                                    <!-- Header row -->
+                                    <div class="mileage-row">
+                                        <div class="form-group">
+                                            <label class="mileage-label">State_City</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mileage-label">Louisville (mi)</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mileage-label">Salt Lake (mi)</label>
+                                        </div>
+                                    </div>
+                                    <!-- Dynamic rows will be added here -->
+                                </div>
+                                <button type="button" class="add-state-btn" id="addMileageRow">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    Add Location
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Freight Rates Tab -->
+                        <div class="config-content" id="freight-tab">
+                            <!-- Louisville Rates -->
+                            <div class="form-group">
+                                <div class="freight-rates-row">
+                                    <div class="freight-rates-header">
+                                        <span>Louisville Freight Rates</span>
+                                        <button type="button" class="add-state-btn" id="addLouisvilleState">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            </svg>
+                                            Add State
+                                        </button>
+                                    </div>
+                                    <div class="freight-rates-grid" id="louisvilleRatesGrid">
+                                        <!-- Header row -->
+                                        <div class="form-group">
+                                            <label class="mileage-label">State</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mileage-label">0-5 CWT</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mileage-label">5-10 CWT</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mileage-label">10-20 CWT</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mileage-label">20+ CWT</label>
+                                        </div>
+                                        <!-- Dynamic rows will be added here -->
+                                    </div>
+                                </div>
+                                
+                                <!-- Salt Lake Rates -->
+                                <div class="freight-rates-row">
+                                    <div class="freight-rates-header">
+                                        <span>Salt Lake Freight Rates</span>
+                                        <button type="button" class="add-state-btn" id="addSaltLakeState">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            </svg>
+                                            Add State
+                                        </button>
+                                    </div>
+                                    <div class="freight-rates-grid" id="saltLakeRatesGrid">
+                                        <!-- Header row -->
+                                        <div class="form-group">
+                                            <label class="mileage-label">State</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mileage-label">0-5 CWT</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mileage-label">5-10 CWT</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mileage-label">10-20 CWT</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="mileage-label">20+ CWT</label>
+                                        </div>
+                                        <!-- Dynamic rows will be added here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Shipping Constraints Tab (New) -->
+                        <div class="config-content" id="constraints-tab">
+                            <div class="config-grid">
+                                <div class="form-group">
+                                    <label for="standardTruckLength" class="form-label">
+                                        Standard Truck Length (ft)
+                                        <div class="tooltip">
+                                            <svg class="tooltip-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Standard length of a truck in feet</span>
+                                        </div>
+                                    </label>
+                                    <input type="number" id="standardTruckLength" class="form-control" step="1" min="20" value="48">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="standardTruckWidth" class="form-label">
+                                        Standard Truck Width (in)
+                                        <div class="tooltip">
+                                            <svg class="tooltip-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Standard width of a truck in inches</span>
+                                        </div>
+                                    </label>
+                                    <input type="number" id="standardTruckWidth" class="form-control" step="1" min="48" value="96">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="maxStackHeight" class="form-label">
+                                        Maximum Stack Height
+                                        <div class="tooltip">
+                                            <svg class="tooltip-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Maximum number of curbs that can be stacked</span>
+                                        </div>
+                                    </label>
+                                    <input type="number" id="maxStackHeight" class="form-control" step="1" min="1" max="10" value="4">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="wideLoadMinWidth" class="form-label">
+                                        Wide Load Minimum Width (in)
+                                        <div class="tooltip">
+                                            <svg class="tooltip-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Minimum width in inches to qualify as a wide load</span>
+                                        </div>
+                                    </label>
+                                    <input type="number" id="wideLoadMinWidth" class="form-control" step="1" min="48" value="96">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="ltlLengthLimit" class="form-label">
+                                        LTL Length Limit (in)
+                                        <div class="tooltip">
+                                            <svg class="tooltip-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Maximum length in inches for LTL shipping</span>
+                                        </div>
+                                    </label>
+                                    <input type="number" id="ltlLengthLimit" class="form-control" step="1" min="48" value="96">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="isoStackLimit" class="form-label">
+                                        ISO Curb Stack Limit
+                                        <div class="tooltip">
+                                            <svg class="tooltip-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                            <span class="tooltip-text">Maximum stack height for ISO curbs</span>
+                                        </div>
+                                    </label>
+                                    <input type="number" id="isoStackLimit" class="form-control" step="1" min="1" max="5" value="2">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="isoTypes" class="form-label">ISO Curb Types</label>
+                                    <input type="text" id="isoTypes" class="form-control" value="ISO, KCC ISO">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="config-actions">
+                            <button type="button" id="resetConfig" class="btn btn-secondary">Reset to Defaults</button>
+                            <button type="button" id="saveConfig" class="btn btn-success">Save Configuration</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="shipToState" class="form-label">Ship To State/Province</label>
+                        <select id="shipToState" class="form-control" required>
+                            <option value="">Select State/Province</option>
+                            <option value="AL">Alabama (AL)</option>
+                            <option value="AZ">Arizona (AZ)</option>
+                            <option value="CA">California (CA)</option>
+                            <option value="CO">Colorado (CO)</option>
+                            <option value="FL">Florida (FL)</option>
+                            <option value="KY">Kentucky (KY)</option>
+                            <option value="MS">Mississippi (MS)</option>
+                            <option value="TN">Tennessee (TN)</option>
+                            <!-- Add other states -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="shipToCity" class="form-label">Ship To City</label>
+                        <select id="shipToCity" class="form-control" required disabled>
+                            <option value="">Select a State First</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Line Items Card -->
+            <div class="card animation-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="card-header">
+                    <h2 class="card-title">Line Items</h2>
+                </div>
+                
+                <div class="card-body">
+                    <div id="lineItemsContainer">
+                        <!-- Line items will be added here dynamically -->
+                    </div>
+                    
+                    <button type="button" class="add-line-item" id="addLineItem">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Add Line Item
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Calculate Button Card -->
+            <div class="card animation-fade-in-up" style="animation-delay: 0.3s;">
+                <div class="card-body">
+                    <button type="button" id="calculateButton" class="btn btn-primary btn-block" disabled>
+                        Calculate Shipping
+                    </button>
+                    
+                    <div class="loading" id="loadingIndicator">
+                        <div class="loading-spinner"></div>
+                        <div>Calculating shipping options...</div>
+                    </div>
+                    
+                    <div class="error" id="errorMessage">
+                        <svg class="error-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <span id="errorText">Error calculating shipping</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Section -->
+        <div class="results-section">
+            <div class="card animation-fade-in-up" id="resultsCard" style="display: none; animation-delay: 0.4s;">
+                <div class="card-header">
+                    <h2 class="card-title">Calculation Results</h2>
+                </div>
+                
+                <div class="card-body">
+                    <div class="result-section">
+                        <h3>Order Summary</h3>
+                        <div class="result-row">
+                            <span class="result-label">Total Weight:</span>
+                            <span class="result-value" id="totalWeight">0</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Total Quantity:</span>
+                            <span class="result-value" id="totalQuantity">0</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Wide Load Items:</span>
+                            <span class="result-value" id="wideLoadStatus">No</span>
+                        </div>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h3>Distance Information</h3>
+                        <div class="result-row">
+                            <span class="result-label">Miles from Louisville:</span>
+                            <span class="result-value" id="milesLouisville">0</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Miles from Salt Lake:</span>
+                            <span class="result-value" id="milesSaltLake">0</span>
+                        </div>
+                    </div>
+                    
+                    <!-- New Shipping Requirements Section -->
+                    <div class="result-section">
+                        <h3>Shipping Requirements</h3>
+                        <div class="shipping-breakdown">
+                            <div class="shipping-breakdown-item">
+                                <div class="breakdown-label">Standard Trucks</div>
+                                <div class="breakdown-value" id="standardTrucks">0</div>
+                            </div>
+                            <div class="shipping-breakdown-item">
+                                <div class="breakdown-label">Wide Load Trucks</div>
+                                <div class="breakdown-value" id="wideLoadTrucks">0</div>
+                            </div>
+                            <div class="shipping-breakdown-item">
+                                <div class="breakdown-label">Partial Load Discount</div>
+                                <div class="breakdown-value" id="partialDiscount">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h3>Shipping Options</h3>
+                        <div class="shipping-options" id="shippingOptions">
+                            <!-- Shipping options will be added here dynamically -->
+                        </div>
+                    </div>
+                    
+                    <div class="best-option" id="bestOption">
+                        <h3>Recommended Option</h3>
+                        <div class="best-option-content" id="bestOptionText">Calculating best option...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // Lambda function URL
+    const lambdaUrl = 'https://bdgzecdwzd6vdgzuywvzbcdsci0ugzdu.lambda-url.us-east-2.on.aws/';
+    
+    // City data by state
+    const cityData = {
+        'AL': ['Birmingham', 'Montgomery', 'Mobile'],
+        'AZ': ['Phoenix', 'Tucson', 'Mesa'],
+        'CA': ['Los Angeles', 'San Francisco', 'San Diego'],
+        'CO': ['Denver', 'Colorado Springs', 'Boulder'],
+        'FL': ['Miami', 'Orlando', 'Tampa'],
+        'KY': ['Louisville', 'Lexington', 'Bowling Green'],
+        'MS': ['Jackson', 'Hattiesburg', 'Biloxi'],
+        'TN': ['Nashville', 'Memphis', 'Knoxville']
+    };
+    
+    // Curb types collection
+    let curbTypes = [
+        'MBC1', 'MBC3', 'MBC7', 'MBC7-3 Piece',
+        'Butler IF', 'Duracurb', 'MBC9', 'MBC10', 'MBC11', 'MBC12', 'Inner Curb',
+        'Base Panel', 'BR-II', 'MBC7 Extended', 'Seam In', 'Butler Base Panel',
+        'CC-1', 'CC-2', 'CC-3', 'CC-4', 'CC-5', 'CC-6',
+        'ISO', 'KCC ISO'
+    ];
+    
+    // Line item counter for unique IDs
+    let lineItemCounter = 0;
+    
+    // Configuration state
+    let configData = null;
+    
+    // DOM elements
+    const shipToStateSelect = document.getElementById('shipToState');
+    const shipToCitySelect = document.getElementById('shipToCity');
+    const lineItemsContainer = document.getElementById('lineItemsContainer');
+    const addLineItemButton = document.getElementById('addLineItem');
+    const calculateButton = document.getElementById('calculateButton');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const errorMessage = document.getElementById('errorMessage');
+    const errorText = document.getElementById('errorText');
+    const resultsCard = document.getElementById('resultsCard');
+    const toggleConfigButton = document.getElementById('toggleConfig');
+    const configSection = document.getElementById('configSection');
+    const configBtnText = document.getElementById('configBtnText');
+    const mileageInputs = document.getElementById('mileageInputs');
+    const addMileageRowButton = document.getElementById('addMileageRow');
+    const louisvilleRatesGrid = document.getElementById('louisvilleRatesGrid');
+    const saltLakeRatesGrid = document.getElementById('saltLakeRatesGrid');
+    const addLouisvilleStateButton = document.getElementById('addLouisvilleState');
+    const addSaltLakeStateButton = document.getElementById('addSaltLakeState');
+    const resetConfigButton = document.getElementById('resetConfig');
+    const saveConfigButton = document.getElementById('saveConfig');
+    
+    // Initialize the form
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Load default config from Lambda function
+        await loadDefaultConfig();
+        
+        // Check for saved config in localStorage
+        const savedConfig = localStorage.getItem('shippingConfig');
+        if (savedConfig) {
+            try {
+                configData = JSON.parse(savedConfig);
+                updateConfigInputs();
+                
+                // Update curb types based on config
+                updateCurbTypesFromConfig();
+            } catch (error) {
+                console.error('Error parsing saved config:', error);
+                // If there's an error, fall back to default config
+            }
+        }
+        
+        // Add initial line item
+        addLineItem();
+        
+        // Add event listeners
+        shipToStateSelect.addEventListener('change', updateCities);
+        addLineItemButton.addEventListener('click', addLineItem);
+        calculateButton.addEventListener('click', calculateShipping);
+        toggleConfigButton.addEventListener('click', toggleConfig);
+        addMileageRowButton.addEventListener('click', addMileageRow);
+        addLouisvilleStateButton.addEventListener('click', () => addFreightStateRow('louisville'));
+        addSaltLakeStateButton.addEventListener('click', () => addFreightStateRow('saltLake'));
+        resetConfigButton.addEventListener('click', resetConfig);
+        saveConfigButton.addEventListener('click', saveConfig);
+        
+        // Set up config tabs
+        document.querySelectorAll('.config-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.config-tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Hide all content
+                document.querySelectorAll('.config-content').forEach(content => content.classList.remove('active'));
+                // Show content for clicked tab
+                document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+            });
+        });
+        
+        // Update button state on input changes
+        document.addEventListener('input', validateForm);
+    });
+    
+    // Load default configuration from Lambda function
+    async function loadDefaultConfig() {
+        try {
+            const response = await fetch(`${lambdaUrl}?getDefaultConfig=true`);
+            if (!response.ok) {
+                throw new Error(`API error: ${response.status} ${response.statusText}`);
+            }
+            
+            let data = await response.json();
+            
+            // If response has a body property, it's wrapped in API Gateway format
+            if (data.body) {
+                data = JSON.parse(data.body);
+            }
+            
+            configData = data;
+            
+            // Update UI with config data
+            updateConfigInputs();
+            populateMileageData();
+            populateFreightRates();
+            
+            // Update curb types based on config
+            updateCurbTypesFromConfig();
+        } catch (error) {
+            console.error('Error loading default config:', error);
+            errorText.textContent = `Error loading configuration: ${error.message}`;
+            errorMessage.style.display = 'block';
+            
+            // Set a basic default config if API fails
+            setBasicDefaultConfig();
+        }
+    }
+    
+    // Set basic default config if API fails
+    function setBasicDefaultConfig() {
+        configData = {
+            rateConfiguration: {
+                ltlFuelSurchargeMultiplier: 1.08,
+                ltlFreightChargeMinimum: 140,
+                truckLoadFreightChargePerMile: 3.75,
+                truckLoadFreightChargeMinimum: 825,
+                wideLoadFreightChargePerMile: 6.00,
+                wideLoadFreightChargeMinimum: 925,
+                minimumLargeTruckFreight: 90,
+                volumeFreightMultiplier: 0.75
+            },
+            curbTypeAddOns: {
+                addOn1: {
+                    types: ["MBC1", "MBC3", "MBC7", "MBC7-3 Piece"],
+                    value: 14
+                },
+                addOn2: {
+                    types: ["Butler IF", "Duracurb", "MBC9", "MBC10", "MBC11", "MBC12", "Inner Curb"],
+                    value: 4
+                },
+                addOn3: {
+                    types: ["Base Panel", "BR-II", "MBC7 Extended", "Seam In", "Butler Base Panel"],
+                    value: 24
+                },
+                addOn4: {
+                    types: ["CC-1", "CC-2", "CC-3", "CC-4", "CC-5", "CC-6"],
+                    value: 6
+                }
+            },
+            freightRates: {
+                louisville: {
+                    'AL': {hw0To5: 60.7, hwGt5To10: 37.8, hwGt10To20: 26.2, hwGt20: 20.3},
+                    'CA': {hw0To5: 64.2, hwGt5To10: 52.7, hwGt10To20: 44.0, hwGt20: 37.5}
+                },
+                saltLake: {
+                    'AL': {hw0To5: 64.7, hwGt5To10: 42.8, hwGt10To20: 31.2, hwGt20: 25.3},
+                    'CA': {hw0To5: 59.2, hwGt5To10: 47.7, hwGt10To20: 39.0, hwGt20: 32.5}
+                }
+            },
+            mileageData: {
+                'AL_Birmingham': {louisville: 450, saltLake: 1800},
+                'CA_Los Angeles': {louisville: 2100, saltLake: 700},
+                'MS_Jackson': {louisville: 590, saltLake: 1750}
+            },
+            noLtlStates: ["AB", "BC", "MB", "NB", "NS", "ON", "SK"],
+            shippingConstraints: {
+                standardTruckLength: 48 * 12,  // In inches (48 feet)
+                standardTruckWidth: 96,        // In inches (8 feet)
+                maxStackHeight: 4,             // Can stack 4 high for normal curbs
+                wideLoadMinWidth: 96,          // Anything over 96 inches is wide load
+                ltlLengthLimit: 96,            // Anything over 96 inches can't go LTL
+                isoStackLimit: 2,              // ISO curves can only stack 2 high
+                isoTypes: ["ISO", "KCC ISO"]   // ISO curb type identifiers
+            }
+        };
+        
+        // Update UI with basic config
+        updateConfigInputs();
+        populateMileageData();
+        populateFreightRates();
+        
+        // Update curb types based on config
+        updateCurbTypesFromConfig();
+    }
+    
+    // Update config inputs with current config data
+    function updateConfigInputs() {
+        // Shipping rates
+        document.getElementById('ltlFuelSurchargeMultiplier').value = configData.rateConfiguration.ltlFuelSurchargeMultiplier;
+        document.getElementById('ltlFreightChargeMinimum').value = configData.rateConfiguration.ltlFreightChargeMinimum;
+        document.getElementById('truckLoadFreightChargePerMile').value = configData.rateConfiguration.truckLoadFreightChargePerMile;
+        document.getElementById('truckLoadFreightChargeMinimum').value = configData.rateConfiguration.truckLoadFreightChargeMinimum;
+        document.getElementById('wideLoadFreightChargePerMile').value = configData.rateConfiguration.wideLoadFreightChargePerMile;
+        document.getElementById('wideLoadFreightChargeMinimum').value = configData.rateConfiguration.wideLoadFreightChargeMinimum;
+        document.getElementById('minimumLargeTruckFreight').value = configData.rateConfiguration.minimumLargeTruckFreight;
+        
+        // Volume freight multiplier if it exists
+        if (document.getElementById('volumeFreightMultiplier') && 'volumeFreightMultiplier' in configData.rateConfiguration) {
+            document.getElementById('volumeFreightMultiplier').value = configData.rateConfiguration.volumeFreightMultiplier;
+        }
+        
+        document.getElementById('noLtlStates').value = configData.noLtlStates.join(', ');
+        
+        // Curb type add-ons
+        document.getElementById('addOn1Types').value = configData.curbTypeAddOns.addOn1.types.join(', ');
+        document.getElementById('addOn1Value').value = configData.curbTypeAddOns.addOn1.value;
+        document.getElementById('addOn2Types').value = configData.curbTypeAddOns.addOn2.types.join(', ');
+        document.getElementById('addOn2Value').value = configData.curbTypeAddOns.addOn2.value;
+        document.getElementById('addOn3Types').value = configData.curbTypeAddOns.addOn3.types.join(', ');
+        document.getElementById('addOn3Value').value = configData.curbTypeAddOns.addOn3.value;
+        document.getElementById('addOn4Types').value = configData.curbTypeAddOns.addOn4.types.join(', ');
+        document.getElementById('addOn4Value').value = configData.curbTypeAddOns.addOn4.value;
+        
+        // Shipping constraints (if they exist)
+        if (configData.shippingConstraints) {
+            const constraints = configData.shippingConstraints;
+            
+            // Check if each element exists before updating it
+            if (document.getElementById('standardTruckLength')) {
+                document.getElementById('standardTruckLength').value = Math.floor(constraints.standardTruckLength / 12); // Convert to feet
+            }
+            
+            if (document.getElementById('standardTruckWidth')) {
+                document.getElementById('standardTruckWidth').value = constraints.standardTruckWidth;
+            }
+            
+            if (document.getElementById('maxStackHeight')) {
+                document.getElementById('maxStackHeight').value = constraints.maxStackHeight;
+            }
+            
+            if (document.getElementById('wideLoadMinWidth')) {
+                document.getElementById('wideLoadMinWidth').value = constraints.wideLoadMinWidth;
+            }
+            
+            if (document.getElementById('ltlLengthLimit')) {
+                document.getElementById('ltlLengthLimit').value = constraints.ltlLengthLimit;
+            }
+            
+            if (document.getElementById('isoStackLimit')) {
+                document.getElementById('isoStackLimit').value = constraints.isoStackLimit;
+            }
+            
+            if (document.getElementById('isoTypes')) {
+                document.getElementById('isoTypes').value = constraints.isoTypes.join(', ');
+            }
+        }
+    }
+    
+    // Populate mileage data inputs
+    function populateMileageData() {
+        // Clear existing inputs except header row
+        while (mileageInputs.childElementCount > 1) {
+            mileageInputs.removeChild(mileageInputs.lastElementChild);
+        }
+        
+        // Add mileage data rows
+        for (const [key, value] of Object.entries(configData.mileageData)) {
+            addMileageRow(key, value.louisville, value.saltLake);
+        }
+    }
+    
+    // Add a mileage data row
+    function addMileageRow(key = '', milesLouisville = '', milesSaltLake = '') {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'mileage-row';
+        
+        // Create inputs
+        rowDiv.innerHTML = `
+            <div class="form-group">
+                <input type="text" class="form-control mileage-location" placeholder="State_City" value="${key}">
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control miles-louisville" min="0" placeholder="Miles" value="${milesLouisville}">
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control miles-saltlake" min="0" placeholder="Miles" value="${milesSaltLake}">
+            </div>
+        `;
+        
+        // Add remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-line-item';
+        removeBtn.innerHTML = '×';
+        removeBtn.addEventListener('click', () => rowDiv.remove());
+        rowDiv.appendChild(removeBtn);
+        
+        // Add to container
+        mileageInputs.appendChild(rowDiv);
+    }
+    
+    // Populate freight rates
+    function populateFreightRates() {
+        // Clear existing Louisville rates (keeping header row)
+        const louisvilleChildren = Array.from(louisvilleRatesGrid.children);
+        if (louisvilleChildren.length > 5) {
+            for (let i = 5; i < louisvilleChildren.length; i++) {
+                louisvilleRatesGrid.removeChild(louisvilleChildren[i]);
+            }
+        }
+        
+        // Add Louisville rates
+        for (const [state, rates] of Object.entries(configData.freightRates.louisville)) {
+            addFreightStateRow('louisville', state, rates);
+        }
+        
+        // Clear existing Salt Lake rates (keeping header row)
+        const saltLakeChildren = Array.from(saltLakeRatesGrid.children);
+        if (saltLakeChildren.length > 5) {
+            for (let i = 5; i < saltLakeChildren.length; i++) {
+                saltLakeRatesGrid.removeChild(saltLakeChildren[i]);
+            }
+        }
+        
+        // Add Salt Lake rates
+        for (const [state, rates] of Object.entries(configData.freightRates.saltLake)) {
+            addFreightStateRow('saltLake', state, rates);
+        }
+    }
+    
+    // Add a freight state row
+    function addFreightStateRow(location, state = '', rates = {}) {
+        const container = location === 'louisville' ? louisvilleRatesGrid : saltLakeRatesGrid;
+        
+        // Create state input
+        const stateInput = document.createElement('div');
+        stateInput.className = 'form-group';
+        stateInput.innerHTML = `
+            <input type="text" class="form-control freight-state" placeholder="State" value="${state}" maxlength="2">
+        `;
+        container.appendChild(stateInput);
+        
+        // Create rate inputs
+        const hw0To5Input = document.createElement('div');
+        hw0To5Input.className = 'form-group';
+        hw0To5Input.innerHTML = `
+            <input type="number" class="form-control freight-rate hw0To5" step="0.1" min="0" placeholder="Rate" value="${rates.hw0To5 || ''}">
+        `;
+        container.appendChild(hw0To5Input);
+        
+        const hwGt5To10Input = document.createElement('div');
+        hwGt5To10Input.className = 'form-group';
+        hwGt5To10Input.innerHTML = `
+            <input type="number" class="form-control freight-rate hwGt5To10" step="0.1" min="0" placeholder="Rate" value="${rates.hwGt5To10 || ''}">
+        `;
+        container.appendChild(hwGt5To10Input);
+        
+        const hwGt10To20Input = document.createElement('div');
+        hwGt10To20Input.className = 'form-group';
+        hwGt10To20Input.innerHTML = `
+            <input type="number" class="form-control freight-rate hwGt10To20" step="0.1" min="0" placeholder="Rate" value="${rates.hwGt10To20 || ''}">
+        `;
+        container.appendChild(hwGt10To20Input);
+        
+        const hwGt20Input = document.createElement('div');
+        hwGt20Input.className = 'form-group';
+        hwGt20Input.innerHTML = `
+            <input type="number" class="form-control freight-rate hwGt20" step="0.1" min="0" placeholder="Rate" value="${rates.hwGt20 || ''}">
+        `;
+        container.appendChild(hwGt20Input);
+        
+        // Add remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-line-item';
+        removeBtn.innerHTML = '×';
+        removeBtn.addEventListener('click', () => {
+            // Remove all elements
+            container.removeChild(stateInput);
+            container.removeChild(hw0To5Input);
+            container.removeChild(hwGt5To10Input);
+            container.removeChild(hwGt10To20Input);
+            container.removeChild(hwGt20Input);
+            container.removeChild(removeBtn);
+        });
+        container.appendChild(removeBtn);
+    }
+    
+    // Update curb types from configuration
+    function updateCurbTypesFromConfig() {
+        // Collect all curb types from config
+        curbTypes = [
+            ...configData.curbTypeAddOns.addOn1.types,
+            ...configData.curbTypeAddOns.addOn2.types,
+            ...configData.curbTypeAddOns.addOn3.types,
+            ...configData.curbTypeAddOns.addOn4.types
+        ];
+        
+        // Add ISO types if they exist
+        if (configData.shippingConstraints && configData.shippingConstraints.isoTypes) {
+            curbTypes = [...curbTypes, ...configData.shippingConstraints.isoTypes];
+        }
+        
+        // Remove duplicates
+        curbTypes = [...new Set(curbTypes)];
+        
+        // Update existing line items
+        updateLineItemCurbTypes();
+    }
+    
+    // Update curb type dropdowns in all line items
+    function updateLineItemCurbTypes() {
+        const curbTypeSelects = document.querySelectorAll('[id^="curbType-"]');
+        
+        curbTypeSelects.forEach(select => {
+            const currentValue = select.value;
+            
+            // Clear options
+            select.innerHTML = '<option value="">Select Curb Type</option>';
+            
+            // Add options
+            curbTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type;
+                select.appendChild(option);
+            });
+            
+            // Restore selected value if it still exists
+            if (curbTypes.includes(currentValue)) {
+                select.value = currentValue;
+            } else if (curbTypes.length > 0) {
+                // Otherwise select first option
+                select.value = curbTypes[0];
+            }
+        });
+    }
+    
+    // Toggle configuration section
+    function toggleConfig() {
+        const isVisible = configSection.style.display === 'block';
+        configSection.style.display = isVisible ? 'none' : 'block';
+        configBtnText.textContent = isVisible ? 'Configure Rates' : 'Hide Configuration';
+        toggleConfigButton.classList.toggle('active', !isVisible);
+    }
+    
+    // Reset configuration to defaults
+    async function resetConfig() {
+        // Confirm reset
+        if (!confirm('This will reset all configuration values to defaults. Continue?')) {
+            return;
+        }
+        
+        // Load default config
+        await loadDefaultConfig();
+        
+        // Clear localStorage
+        localStorage.removeItem('shippingConfig');
+        
+        // Show confirmation
+        alert('Configuration has been reset to defaults.');
+    }
+    
+    // Save configuration
+    function saveConfig() {
+        try {
+            // Collect configuration from inputs
+            const config = {
+                rateConfiguration: {
+                    ltlFuelSurchargeMultiplier: parseFloat(document.getElementById('ltlFuelSurchargeMultiplier').value),
+                    ltlFreightChargeMinimum: parseFloat(document.getElementById('ltlFreightChargeMinimum').value),
+                    truckLoadFreightChargePerMile: parseFloat(document.getElementById('truckLoadFreightChargePerMile').value),
+                    truckLoadFreightChargeMinimum: parseFloat(document.getElementById('truckLoadFreightChargeMinimum').value),
+                    wideLoadFreightChargePerMile: parseFloat(document.getElementById('wideLoadFreightChargePerMile').value),
+                    wideLoadFreightChargeMinimum: parseFloat(document.getElementById('wideLoadFreightChargeMinimum').value),
+                    minimumLargeTruckFreight: parseFloat(document.getElementById('minimumLargeTruckFreight').value)
+                },
+                curbTypeAddOns: {
+                    addOn1: {
+                        types: document.getElementById('addOn1Types').value.split(',').map(t => t.trim()),
+                        value: parseInt(document.getElementById('addOn1Value').value)
+                    },
+                    addOn2: {
+                        types: document.getElementById('addOn2Types').value.split(',').map(t => t.trim()),
+                        value: parseInt(document.getElementById('addOn2Value').value)
+                    },
+                    addOn3: {
+                        types: document.getElementById('addOn3Types').value.split(',').map(t => t.trim()),
+                        value: parseInt(document.getElementById('addOn3Value').value)
+                    },
+                    addOn4: {
+                        types: document.getElementById('addOn4Types').value.split(',').map(t => t.trim()),
+                        value: parseInt(document.getElementById('addOn4Value').value)
+                    }
+                },
+                noLtlStates: document.getElementById('noLtlStates').value.split(',').map(s => s.trim()),
+                mileageData: {},
+                freightRates: {
+                    louisville: {},
+                    saltLake: {}
+                }
+            };
+            
+            // Add volume freight multiplier if available
+            if (document.getElementById('volumeFreightMultiplier')) {
+                config.rateConfiguration.volumeFreightMultiplier = parseFloat(
+                    document.getElementById('volumeFreightMultiplier').value
+                );
+            }
+            
+            // Add shipping constraints if the elements exist
+            if (document.getElementById('standardTruckLength')) {
+                config.shippingConstraints = {
+                    standardTruckLength: parseInt(document.getElementById('standardTruckLength').value) * 12, // Convert to inches
+                    standardTruckWidth: parseInt(document.getElementById('standardTruckWidth').value),
+                    maxStackHeight: parseInt(document.getElementById('maxStackHeight').value),
+                    wideLoadMinWidth: parseInt(document.getElementById('wideLoadMinWidth').value),
+                    ltlLengthLimit: parseInt(document.getElementById('ltlLengthLimit').value),
+                    isoStackLimit: parseInt(document.getElementById('isoStackLimit').value),
+                    isoTypes: document.getElementById('isoTypes').value.split(',').map(t => t.trim())
+                };
+            }
+            
+            // Collect mileage data
+            const mileageRows = mileageInputs.querySelectorAll('.mileage-row:not(:first-child)');
+            mileageRows.forEach(row => {
+                const location = row.querySelector('.mileage-location').value;
+                const milesLouisville = parseFloat(row.querySelector('.miles-louisville').value);
+                const milesSaltLake = parseFloat(row.querySelector('.miles-saltlake').value);
+                
+                if (location && !isNaN(milesLouisville) && !isNaN(milesSaltLake)) {
+                    config.mileageData[location] = {
+                        louisville: milesLouisville,
+                        saltLake: milesSaltLake
+                    };
+                }
+            });
+            
+            // Helper function to collect freight rates
+            function collectFreightRates(container) {
+                const rates = {};
+                const stateInputs = container.querySelectorAll('.freight-state');
+                
+                stateInputs.forEach(stateInput => {
+                    const state = stateInput.value.trim();
+                    if (state) {
+                        const row = stateInput.closest('.form-group').parentElement;
+                        const stateIndex = Array.from(row.children).indexOf(stateInput.closest('.form-group'));
+                        
+                        if (stateIndex !== -1) {
+                            const hw0To5 = parseFloat(row.children[stateIndex + 1].querySelector('.hw0To5').value);
+                            const hwGt5To10 = parseFloat(row.children[stateIndex + 2].querySelector('.hwGt5To10').value);
+                            const hwGt10To20 = parseFloat(row.children[stateIndex + 3].querySelector('.hwGt10To20').value);
+                            const hwGt20 = parseFloat(row.children[stateIndex + 4].querySelector('.hwGt20').value);
+                            
+                            rates[state] = {
+                                hw0To5: hw0To5,
+                                hwGt5To10: hwGt5To10,
+                                hwGt10To20: hwGt10To20,
+                                hwGt20: hwGt20
+                            };
+                        }
+                    }
+                });
+                
+                return rates;
+            }
+            
+            // Collect freight rates
+            config.freightRates.louisville = collectFreightRates(louisvilleRatesGrid);
+            config.freightRates.saltLake = collectFreightRates(saltLakeRatesGrid);
+            
+            // Save to localStorage
+            localStorage.setItem('shippingConfig', JSON.stringify(config));
+            
+            // Update config data
+            configData = config;
+            
+            // Update curb types
+            updateCurbTypesFromConfig();
+            
+            // Show confirmation
+            alert('Configuration has been saved successfully.');
+        } catch (error) {
+            console.error('Error saving configuration:', error);
+            alert(`Error saving configuration: ${error.message}`);
+        }
+    }
+    
+    // Update cities dropdown when state changes
+    function updateCities() {
+        const selectedState = shipToStateSelect.value;
+        
+        // Clear existing options
+        shipToCitySelect.innerHTML = '<option value="">Select City</option>';
+        
+        if (selectedState && cityData[selectedState]) {
+            // Add city options
+            cityData[selectedState].forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                shipToCitySelect.appendChild(option);
+            });
+            
+            // Enable city dropdown
+            shipToCitySelect.disabled = false;
+        } else {
+            // Disable city dropdown if no state selected
+            shipToCitySelect.disabled = true;
+        }
+        
+        // Validate form
+        validateForm();
+    }
+    
+    // Add a new line item
+    function addLineItem() {
+        lineItemCounter++;
+        
+        // Create line item element
+        const lineItemElement = document.createElement('div');
+        lineItemElement.className = 'line-item animation-fade-in-up';
+        lineItemElement.id = `lineItem-${lineItemCounter}`;
+        
+        // Create line item header
+        const lineItemHeader = document.createElement('h3');
+        lineItemHeader.textContent = `Line Item #${lineItemCounter}`;
+        
+        // Create line item grid
+        const lineItemGrid = document.createElement('div');
+        lineItemGrid.className = 'line-item-grid';
+        
+        // Generate input fields
+        lineItemGrid.innerHTML = `
+            <div class="form-group">
+                <label for="partNumber-${lineItemCounter}" class="form-label">Part Number</label>
+                <input type="text" id="partNumber-${lineItemCounter}" class="form-control" value="AA_PECURB015" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="curbType-${lineItemCounter}" class="form-label">Curb Type</label>
+                <select id="curbType-${lineItemCounter}" class="form-control" required>
+                    <option value="">Select Curb Type</option>
+                    ${curbTypes.map(type => `<option value="${type}">${type}</option>`).join('')}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="quantity-${lineItemCounter}" class="form-label">Quantity</label>
+                <input type="number" id="quantity-${lineItemCounter}" class="form-control" min="1" value="1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="weight-${lineItemCounter}" class="form-label">Weight (lbs)</label>
+                <input type="number" id="weight-${lineItemCounter}" class="form-control" min="1" value="100" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="height-${lineItemCounter}" class="form-label">Height (in)</label>
+                <input type="number" id="height-${lineItemCounter}" class="form-control" min="1" value="14" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="pm-${lineItemCounter}" class="form-label">PM Value</label>
+                <input type="number" id="pm-${lineItemCounter}" class="form-control" min="0" value="30" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="pe-${lineItemCounter}" class="form-label">PE Value</label>
+                <input type="number" id="pe-${lineItemCounter}" class="form-control" min="0" value="30" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="pr-${lineItemCounter}" class="form-label">PR Value</label>
+                <input type="number" id="pr-${lineItemCounter}" class="form-control" min="0" value="25" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="pl-${lineItemCounter}" class="form-label">PL Value</label>
+                <input type="number" id="pl-${lineItemCounter}" class="form-control" min="0" value="25" required>
+            </div>
+        `;
+        
+        // Add remove button if not the first line item
+        if (lineItemCounter > 1) {
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className = 'remove-line-item';
+            removeButton.innerHTML = '×';
+            removeButton.addEventListener('click', () => removeLineItem(lineItemCounter));
+            lineItemElement.appendChild(removeButton);
+        }
+        
+        // Append elements to line item
+        lineItemElement.appendChild(lineItemHeader);
+        lineItemElement.appendChild(lineItemGrid);
+        
+        // Add line item to container
+        lineItemsContainer.appendChild(lineItemElement);
+        
+        // Set default curb type
+        if (curbTypes.length > 0) {
+            document.getElementById(`curbType-${lineItemCounter}`).value = curbTypes[0];
+        }
+        
+        // Validate form
+        validateForm();
+    }
+    
+    // Remove a line item
+    function removeLineItem(id) {
+        const lineItem = document.getElementById(`lineItem-${id}`);
+        if (lineItem) {
+            lineItem.classList.add('animation-fade-out');
+            setTimeout(() => {
+                lineItem.remove();
+                validateForm();
+            }, 300);
+        }
+    }
+    
+    // Validate form
+    function validateForm() {
+        // Check if state and city are selected
+        const stateSelected = shipToStateSelect.value !== '';
+        const citySelected = shipToCitySelect.value !== '';
+        
+        // Check if at least one line item exists
+        const hasLineItems = lineItemsContainer.children.length > 0;
+        
+        // Enable/disable calculate button
+        calculateButton.disabled = !(stateSelected && citySelected && hasLineItems);
+    }
+    
+    // Format currency
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(value);
+    }
+    
+    // Format number with commas
+    function formatNumber(value, suffix = '') {
+        return new Intl.NumberFormat('en-US').format(value) + suffix;
+    }
+    
+    // Format percentage
+    function formatPercentage(value) {
+        return new Intl.NumberFormat('en-US', {
+            style: 'percent',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(value);
+    }
+    
+    // Collect line items for calculation
+    function collectLineItems() {
+        const lineItems = [];
+        const lineItemElements = lineItemsContainer.children;
+        
+        for (let i = 0; i < lineItemElements.length; i++) {
+            const id = lineItemElements[i].id.split('-')[1];
+            
+            // Collect all fields, including height if available
+            const item = {
+                id: id,
+                partNumber: document.getElementById(`partNumber-${id}`).value,
+                curbType: document.getElementById(`curbType-${id}`).value,
+                quantity: parseInt(document.getElementById(`quantity-${id}`).value, 10),
+                weight: parseFloat(document.getElementById(`weight-${id}`).value),
+                pm: parseInt(document.getElementById(`pm-${id}`).value, 10),
+                pe: parseInt(document.getElementById(`pe-${id}`).value, 10),
+                pr: parseInt(document.getElementById(`pr-${id}`).value, 10),
+                pl: parseInt(document.getElementById(`pl-${id}`).value, 10)
+            };
+            
+            // Add height if the field exists
+            const heightElement = document.getElementById(`height-${id}`);
+            if (heightElement) {
+                item.height = parseFloat(heightElement.value || 14);
+            }
+            
+            lineItems.push(item);
+        }
+        
+        return lineItems;
+    }
+    
+    // Calculate shipping
+    async function calculateShipping() {
+        try {
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+            errorMessage.style.display = 'none';
+            resultsCard.style.display = 'none';
+            calculateButton.disabled = true;
+            
+            // Get state and city
+            const shipToState = shipToStateSelect.value;
+            const shipToCity = shipToCitySelect.value;
+            
+            // Collect line items
+            const lineItems = collectLineItems();
+            
+            // Prepare request data
+            const requestData = {
+                shipToState,
+                shipToCity,
+                lineItems,
+                config: configData
+            };
+            
+            // Send request to Lambda function
+            const response = await fetch(lambdaUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+            
+            // Check for errors
+            if (!response.ok) {
+                throw new Error(`API error: ${response.status} ${response.statusText}`);
+            }
+            
+            // Parse response
+            let data = await response.json();
+            
+            // If response has a body property, it's wrapped in API Gateway format
+            if (data.body) {
+                data = JSON.parse(data.body);
+            }
+            
+            // Display results
+            displayResults(data);
+        } catch (error) {
+            // Show error message
+            errorText.textContent = `Error: ${error.message}`;
+            errorMessage.style.display = 'block';
+            console.error('Error calculating shipping:', error);
+        } finally {
+            // Hide loading indicator
+            loadingIndicator.style.display = 'none';
+            calculateButton.disabled = false;
+        }
+    }
+    
+    // Display results
+    function displayResults(data) {
+        // Update summary information
+        document.getElementById('totalWeight').textContent = formatNumber(data.totalWeight, ' lbs');
+        document.getElementById('totalQuantity').textContent = formatNumber(data.totalQuantity);
+        
+        // Handle LT qualified status
+        if (document.getElementById('ltQualified')) {
+            document.getElementById('ltQualified').textContent = data.isLTQualified ? 'Yes' : 'No';
+        }
+        
+        // Add wide load status if available
+        if (document.getElementById('wideLoadStatus') && 'hasWideLoad' in data) {
+            document.getElementById('wideLoadStatus').textContent = data.hasWideLoad ? 'Yes' : 'No';
+        }
+        
+        // Update distance information
+        document.getElementById('milesLouisville').textContent = formatNumber(data.milesFromLouisville, ' miles');
+        document.getElementById('milesSaltLake').textContent = formatNumber(data.milesFromSaltLake, ' miles');
+        
+        // Update shipping requirements if available
+        if (data.shippingDetails) {
+            if (document.getElementById('standardTrucks')) {
+                document.getElementById('standardTrucks').textContent = formatNumber(data.shippingDetails.standardTrucks);
+            }
+            if (document.getElementById('wideLoadTrucks')) {
+                document.getElementById('wideLoadTrucks').textContent = formatNumber(data.shippingDetails.wideLoadTrucks);
+            }
+            if (document.getElementById('partialDiscount')) {
+                document.getElementById('partialDiscount').textContent = formatPercentage(1 - (data.shippingDetails.partialTruckPercentage || 1));
+            }
+        }
+        
+        // Create shipping options
+        const shippingOptionsContainer = document.getElementById('shippingOptions');
+        shippingOptionsContainer.innerHTML = '';
+        
+        // Define shipping options
+        const options = [
+            { name: 'LTL from Louisville', value: data.ltlLouisville },
+            { name: 'LTL from Salt Lake', value: data.ltlSaltLake },
+            { name: 'Truck Load from Louisville', value: data.truckLoadLouisville },
+            { name: 'Truck Load from Salt Lake', value: data.truckLoadSaltLake },
+            { name: 'Wide Load from Louisville', value: data.wideLoadLouisville },
+            { name: 'Wide Load from Salt Lake', value: data.wideLoadSaltLake }
+        ];
+        
+        // Filter out zero values
+        const validOptions = options.filter(option => option.value > 0);
+        
+        // Find best option
+        let bestOption = data.bestOption || { name: 'No valid options', value: 0 };
+        
+        // Update best option text
+        document.getElementById('bestOptionText').textContent = bestOption.value > 0
+            ? `${bestOption.name}: ${formatCurrency(bestOption.value)}`
+            : 'No valid shipping options available';
+        
+        // Add shipping options to container
+        validOptions.forEach(option => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'shipping-option animation-fade-in-up';
+            
+            // Add best price indicator
+            if (option.name === bestOption.name) {
+                optionElement.classList.add('best-price');
+            }
+            
+            const optionName = document.createElement('div');
+            optionName.className = 'option-name';
+            optionName.textContent = option.name;
+            
+            const optionValue = document.createElement('div');
+            optionValue.className = 'option-value';
+            optionValue.textContent = formatCurrency(option.value);
+            
+            optionElement.appendChild(optionName);
+            optionElement.appendChild(optionValue);
+            
+            shippingOptionsContainer.appendChild(optionElement);
+        });
+        
+        // Show results
+        resultsCard.style.display = 'block';
+        resultsCard.classList.add('animation-fade-in-up');
+        
+        // Scroll to results on mobile
+        if (window.innerWidth < 1024) {
+            resultsCard.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+</script>
+</body>
+</html>
